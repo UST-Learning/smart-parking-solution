@@ -19,7 +19,8 @@
       "login/Routes": ["apps/login/src/app/remote-entry/entry.routes.ts"],
       "page_not_found/Routes": [
         "apps/page_not_found/src/app/remote-entry/entry.routes.ts"
-      ]
+      ],
+      "payment/Routes": ["apps/payment/src/app/remote-entry/entry.routes.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
