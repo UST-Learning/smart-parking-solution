@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MainComponent } from '../../main/main.component';
+import { LoginComponent } from '../../login/login.component';
 
 @Component({
-  imports: [CommonModule, MainComponent],
+  imports: [CommonModule, LoginComponent],
   selector: 'app-login-entry',
   template: `<app-main></app-main>`,
 })

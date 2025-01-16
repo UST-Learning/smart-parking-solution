@@ -11,13 +11,20 @@
                 <label for="phone" class="block text-sm/6 font-medium text-gray-900">Phone</label>
                 <div class="mt-2">
                     <input type="phone" name="phone" id="phone" placeholder="9999999999" autocomplete="phone" formControlName="phone"
-                        class="inline-block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
+                        class="inline-block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6" />
+
+                    <div *ngIf="formControls['phone'].touched && formControls['phone'].invalid" class="rounded-md mt-1 p-2 bg-red-300 font-thin text-sm">
+                        <div *ngIf="formControls['phone'].errors && formControls['phone'].errors['required']">Mobile Number is required.
+                        </div>
+                        <div *ngIf="formControls['phone'].errors && formControls['phone'].errors['pattern']">Please, Enter 10 digit Mobile
+                            Number.</div>
+                    </div>
                 </div>
                 <span *ngIf="!isVerified" class="flex my-2" [ngClass]="otpVerify ? 'justify-between' : 'justify-end'">
                     <input *ngIf="otpVerify" type="text" name="otp" id="otp" placeholder="OTP" required
                         class="inline-block rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
-                    <button class="flex w-1/2 justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                    (click)="onVerify()" [disabled]="loading">
+                    <button class="flex w-1/2 justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:bg-indigo-300"
+                    (click)="onVerify()" [disabled]="loading || (formControls['phone'].touched && formControls['phone'].invalid)">
                         {{otpVerify ? "Send OTP" : "Verify"}}
                     </button>
                 </span>
@@ -38,7 +45,7 @@
                 </div>
 
                 <div class="mt-2">
-                    <button type="submit" (click)="onSubmit()"
+                    <button type="submit" (click)="onLogin()"
                         class="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign
                         in</button>
                 </div>
