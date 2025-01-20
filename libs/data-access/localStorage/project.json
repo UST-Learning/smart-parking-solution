@@ -1,0 +1,13 @@
+{
+  "name": "localStorage",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/data-access/localStorage/src",
+  "prefix": "lib",
+  "projectType": "library",
+  "tags": ["data-access"],
+  "targets": {
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    }
+  }
+}

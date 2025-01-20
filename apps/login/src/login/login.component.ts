@@ -2,6 +2,8 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { loginService } from '../service/loginService';
+import { LocalStorageService } from '@smart-parking/localStorage';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-main',
@@ -21,7 +23,11 @@ export class LoginComponent implements OnInit {
     password: ['']
   });
 
-  constructor(private formBuilder: FormBuilder, private cdf: ChangeDetectorRef, private loginService: loginService) {}
+  constructor(private formBuilder: FormBuilder, 
+    private cdf: ChangeDetectorRef, 
+    private loginService: loginService, 
+    private localStorageService: LocalStorageService,
+    private router: Router) { }
 
   ngOnInit() {}
 
@@ -41,8 +47,12 @@ export class LoginComponent implements OnInit {
 
   onLogin() {
     this.loginService.doLogin().subscribe(res =>{
-      const token = (res.token) ? res.token.split(' ')[1] : '';
-      console.log(token);
+      const token = (res?.token) ? res.token.split(' ')[1] : '';
+      this.localStorageService.clear();
+      if(token) {
+        this.localStorageService.set('token', token);
+        this.router.navigate(['home']);
+      }
     });
   }
 
