@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
         <p class="font-bold"> Who we are </p>
         <p class="text-5xl my-4">Digital is our DNA</p>
         <p class="my-4">We’re listeners and leaders, working together to take on tomorrow’s challenges.</p>
-        <img class="relative z-10 w-1/3 justify-self-end top-20" src="https://www.ust.com/content/dam/ust/images/people/people-collaborating.jpg?auto=webp,smallest&quality=80">
+        <img class="relative z-10 w-1/3 justify-self-end top-20" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT_NRQyq-7mbydI3ZZJ4NtC151rDc7kZccKrQ&s" alt="UST Partner for Business Transformation">
       </article>
       <article class="my-8 p-4 font-light">
         <p class="font-bold">OUR CORE VALUES</p>

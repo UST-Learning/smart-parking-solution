@@ -11,6 +11,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class authInterceptor implements HttpInterceptor {
+  private API_BASE_URL = 'http://localhost:3000/api';
+
   intercept(
     req: HttpRequest<any>,
     handler: HttpHandler
@@ -18,6 +20,7 @@ export class authInterceptor implements HttpInterceptor {
     console.log('Request URL: ' + req.url);
     const authToken = inject(AuthService).getAuthToken();
     const newReq = req.clone({
+      url: `${this.API_BASE_URL}${req.urlWithParams}`,
       headers: req.headers.append('X-Authentication-Token', authToken),
     });
     return handler.handle(newReq);
