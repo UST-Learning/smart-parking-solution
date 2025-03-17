@@ -1,0 +1,12 @@
+export enum USERTYPE {
+    SUPER_ADMIN,
+    LOCATION_ADMIN,
+    LOCATION_ASSISTANCE_ADMIN,
+    MANUAL_ADMIN,
+    GENERAL
+}
+
+export enum ROLETYPE {
+    ADMIN,
+    NONADMIN
+}
