@@ -23,6 +23,9 @@
       "@smart-parking/session": ["libs/data-access/session/src/index.ts"],
       "about/Routes": ["apps/about/src/app/remote-entry/entry.routes.ts"],
       "login/Routes": ["apps/login/src/app/remote-entry/entry.routes.ts"],
+      "main_portal/Routes": [
+        "apps/main_portal/src/app/remote-entry/entry.routes.ts"
+      ],
       "page_not_found/Routes": [
         "apps/page_not_found/src/app/remote-entry/entry.routes.ts"
       ],

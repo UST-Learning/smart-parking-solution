@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
       const token = (res?.token) ? res.token.split(' ')[1] : '';
       this.sessionService.loggIn(token);
       if(token) {
-        this.router.navigate(['home']);
+        this.router.navigate(['main_portal']);
       }
     });
   }

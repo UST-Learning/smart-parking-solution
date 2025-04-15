@@ -3,6 +3,11 @@ import { HomeComponent } from '../home/home.component';
 
 export const appRoutes: Route[] = [
   {
+    path: 'main_portal',
+    loadChildren: () =>
+      import('main_portal/Routes').then((m) => m!.remoteRoutes),
+  },
+  {
     path: 'payment',
     loadChildren: () => import('payment/Routes').then((m) => m!.remoteRoutes),
   },
