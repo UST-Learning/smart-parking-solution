@@ -1,3 +1,4 @@
+import { DOCUMENT } from '@angular/common';
 import {
   HttpEvent,
   HttpHandler,
@@ -12,6 +13,7 @@ import { Observable } from 'rxjs';
 })
 export class authInterceptor implements HttpInterceptor {
   private API_BASE_URL = 'http://localhost:3000/api';
+  private authExemptedUrls = ['/verify', '/login'];
 
   intercept(
     req: HttpRequest<any>,
@@ -19,10 +21,17 @@ export class authInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     console.log('Request URL: ' + req.url);
     const authToken = inject(AuthService).getAuthToken();
-    const newReq = req.clone({
-      url: `${this.API_BASE_URL}${req.urlWithParams}`,
-      headers: req.headers.append('X-Authentication-Token', authToken),
-    });
+    let newReq;
+    if(this.authExemptedUrls.includes(req.url)) {
+      newReq = req.clone({
+        url: `${this.API_BASE_URL}${req.urlWithParams}`
+      });
+    } else {
+      newReq = req.clone({
+        url: `${this.API_BASE_URL}${req.urlWithParams}`,
+        headers: req.headers.append('X-Authentication-Token', authToken),
+      });
+    }
     return handler.handle(newReq);
   }
 }
@@ -31,8 +40,13 @@ export class authInterceptor implements HttpInterceptor {
   providedIn: 'root'
 })
 export class AuthService {
-  constructor() {}
+  private readonly localStorage = inject(DOCUMENT)?.defaultView?.localStorage;
   getAuthToken() {
+    if(this.localStorage?.getItem('token')) {
+      const token = this.localStorage.getItem('token')?.replace(/"/g, '') ;
+      return "Bearer " + token;
+    }
+
     return '';
   }
 }

@@ -4,6 +4,7 @@ import { appRoutes } from './app.routes';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { authInterceptor } from '@smart-parking/authinterceptor';
 import { SessionService } from '@smart-parking/session';
+import { AuthGuard } from '@smart-parking/authguard';
 
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { providePrimeNG } from 'primeng/config';
@@ -26,6 +27,7 @@ export const appConfig: ApplicationConfig = {
             darkModeSelector: 'none'
           }
       }
-  })
+  }),
+  AuthGuard
   ],
 };

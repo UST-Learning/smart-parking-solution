@@ -1,9 +1,11 @@
 import { Route } from '@angular/router';
 import { HomeComponent } from '../home/home.component';
+import { AuthGuard } from '@smart-parking/authguard';
 
 export const appRoutes: Route[] = [
   {
     path: 'main_portal',
+    canMatch: [AuthGuard],
     loadChildren: () =>
       import('main_portal/Routes').then((m) => m!.remoteRoutes),
   },

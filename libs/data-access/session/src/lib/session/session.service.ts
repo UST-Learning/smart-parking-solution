@@ -24,8 +24,8 @@ export class SessionService {
   }
 
   checkLoginSession(): void {
-    const token = this.localStorageService.get('token') as string;
-    let loggedIn = (token) ? true : false;
+    const token = this.localStorageService.get('token');
+    const loggedIn = (token) ? true : false;
     console.log(this.getSessionUser());
     if (!loggedIn) {
       this.localStorageService.clear();

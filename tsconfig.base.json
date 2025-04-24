@@ -15,10 +15,16 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@smart-parking/authguard": [
+        "libs/data-access/routeGuards/authguard/src/index.ts"
+      ],
       "@smart-parking/authinterceptor": ["libs/data-access/src/index.ts"],
       "@smart-parking/data-access": ["libs/shared/data-access/src/index.ts"],
       "@smart-parking/localStorage": [
         "libs/data-access/localStorage/src/index.ts"
+      ],
+      "@smart-parking/routeguard": [
+        "libs/data-access/routeGuards/routeguard/src/index.ts"
       ],
       "@smart-parking/session": ["libs/data-access/session/src/index.ts"],
       "about/Routes": ["apps/about/src/app/remote-entry/entry.routes.ts"],
