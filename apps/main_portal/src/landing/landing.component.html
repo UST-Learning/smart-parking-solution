@@ -4,7 +4,7 @@
         <p-button class="right-0" label="Create Account" severity="success" />
     </div>
     <div class="m-2">
-        <p-table [columns]="cols" [value]="accounts" [tableStyle]="{ 'min-width': '50rem' }">
+        <p-table [columns]="cols" [value]="accounts" [tableStyle]="{ 'min-width': '50rem' }" [size]="'small'">
             <ng-template #header let-columns>
                 <tr>
                     <th *ngFor="let col of columns">
@@ -15,7 +15,22 @@
             <ng-template #body let-rowData let-columns="columns">
                 <tr>
                     <td *ngFor="let col of columns">
-                        {{ rowData[col.field] }}
+                        <ng-container [ngSwitch]="col.field">
+                            <span *ngSwitchCase="'status'">
+                                <p-tag [value]="rowData[col.field]"
+                                    [severity]="rowData[col.field] === 'active' ? 'success' : 'danger'" />
+                            </span>
+                            <span *ngSwitchCase="'address'">
+                                {{rowData[col.field][col.subfield]}}
+                            </span>
+                            <span *ngSwitchCase="'actions'">
+                                <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true"
+                                    (click)="editAccount(rowData)" />
+                            </span>
+                            <span *ngSwitchDefault>
+                                {{rowData[col.field] }}
+                            </span>
+                        </ng-container>
                     </td>
                 </tr>
             </ng-template>
