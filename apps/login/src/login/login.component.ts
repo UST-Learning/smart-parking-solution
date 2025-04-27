@@ -1,6 +1,16 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { loginService } from '../service/loginService';
 import { Router } from '@angular/router';
 import { SessionService } from '@smart-parking/session';
@@ -13,43 +23,62 @@ import { SessionService } from '@smart-parking/session';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent implements OnInit {
-  isVerified: boolean = false;
-  otpVerify: boolean = false;
-  isAdmin: boolean = false;
-  loading: boolean = false;
+  isVerified = false;
+  otpVerify = false;
+  isAdmin = false;
+  loading = false;
 
   loginForm: FormGroup<any> = this.formBuilder.group({
-    phone: [{value: '', disabled: false}, [Validators.required, Validators.pattern("^((\\+91-?)|0)?[0-9]{10}$")]],
-    password: ['']
+    phone: [
+      { value: '', disabled: false },
+      [Validators.required, Validators.pattern('^((\\+91-?)|0)?[0-9]{10}$')],
+    ],
+    password: [''],
   });
 
-  constructor(private formBuilder: FormBuilder, 
-    private cdf: ChangeDetectorRef, 
+  constructor(
+    private formBuilder: FormBuilder,
+    private cdf: ChangeDetectorRef,
     private loginService: loginService,
     private sessionService: SessionService,
-    private router: Router) { }
+    private router: Router
+  ) {}
 
   ngOnInit() {}
 
   onVerify() {
+    const phone = this.loginForm.get('phone')?.value;
     console.log(this.loginForm.get('phone')?.value);
-    this.loginForm.get('phone')?.disable();
-    this.loading = true;
 
-    this.loginService.verifyLogin().subscribe(res=>{
-      this.loading = false;
-      this.otpVerify = false;
-      this.isAdmin = res.isAdmin;
-      this.isVerified = res.isVerified;
-      this.cdf.detectChanges();
-    });
+    if (phone) {
+      this.loginForm.get('phone')?.disable();
+      this.loading = true;
+
+      this.loginService.verifyLogin(phone).subscribe({
+        next: (res) => {
+          this.loading = false;
+          this.otpVerify = false;
+          this.isAdmin = res.isAdmin;
+          this.isVerified = res.isVerified;
+          this.cdf.detectChanges();
+        },
+        error: (err) => {
+          this.loading = false;
+          this.loginForm.get('phone')?.enable();
+          this.cdf.detectChanges();
+          console.error('Error verifying login:', err);
+        },
+      });
+    }
   }
 
   onLogin() {
-    this.loginService.doLogin().subscribe(res =>{
-      const token = (res?.token) ? res.token.split(' ')[1] : '';
+    const phone = this.loginForm.get('phone')?.value;
+    const password = this.loginForm.get('password')?.value;
+    this.loginService.doLogin({phone, password}).subscribe((res) => {
+      const token = res?.token ? res.token.split(' ')[1] : '';
       this.sessionService.loggIn(token);
-      if(token) {
+      if (token) {
         this.router.navigate(['main_portal']);
       }
     });
@@ -58,5 +87,4 @@ export class LoginComponent implements OnInit {
   get formControls() {
     return this.loginForm.controls;
   }
-
 }

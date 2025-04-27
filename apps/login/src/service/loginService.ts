@@ -27,16 +27,16 @@ export class loginService {
         return throwError(() => new Error('Something bad happened; please try again later.'));
       }
 
-    verifyLogin(): Observable<any> {
-        return this.http.get('/verify').pipe(catchError(this.handleError.bind(this)));
+    verifyLogin(phone: string): Observable<any> {
+        return this.http.get(`/verify/${phone}`);
         // return of({
         //     isAdmin: true,
         //     isVerified: true
         // })
     }
 
-    doLogin(): Observable<any> {
-        return this.http.get('/login').pipe(catchError(this.handleError.bind(this)));
+    doLogin(userCred: any): Observable<any> {
+        return this.http.post('/login', userCred).pipe(catchError(this.handleError.bind(this)));
         // return of({
         //     token: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c'
         // })
