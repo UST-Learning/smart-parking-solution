@@ -1,10 +1,11 @@
 <div class="p-2 mt-4">
     <div class="flex">
         <span class="flex-1 bottom-0">Table for list of Account Details</span>
-        <p-button class="right-0" icon="pi pi-plus" [rounded]="true" size="small" label="New Account" severity="success" />
+        <p-button class="right-0" icon="pi pi-plus" [rounded]="true" size="small" label="New Account" severity="success" (click)="onNewAccount()"></p-button>
     </div>
-    <div class="m-2">
-        <p-table [columns]="cols" [value]="accounts" [tableStyle]="{ 'min-width': '50rem' }" [size]="'small'">
+    <div class="block m-2 h-[70vh] overflow-y-scroll">
+        <p-table [columns]="cols" [value]="accounts" [tableStyle]="{ 'min-width': '50rem' }" [size]="'small'" [scrollable]="true" 
+        scrollHeight="70%"  class="size-40">
             <ng-template #header let-columns>
                 <tr>
                     <th *ngFor="let col of columns">

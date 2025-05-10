@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
@@ -25,7 +26,7 @@ export class LandingComponent implements OnInit {
 
   accounts: any[] = [];
 
-  constructor(private accountService: AccountService) {}
+  constructor(private accountService: AccountService, private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
     this.accountService.getAccounts().subscribe(data=>{
@@ -35,6 +36,10 @@ export class LandingComponent implements OnInit {
 
   editAccount(account: any) {
     console.log('Edit account:', account);
+  }
+
+  onNewAccount() {
+    this.router.navigate(['create-account'], {relativeTo: this.route});
   }
 
 }

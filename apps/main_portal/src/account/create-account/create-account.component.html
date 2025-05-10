@@ -1,0 +1,75 @@
+<div class="container mx-auto mt-8 p-6 bg-white rounded-md shadow-md">
+    <h2 class="text-2xl font-semibold mb-4 text-gray-800">Account Details</h2>
+    <form [formGroup]="account" (ngSubmit)="onSubmit()">
+      <div class="mb-4">
+        <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Name</label>
+        <input pInputText type="text" id="name" formControlName="name"
+               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+        <div *ngIf="account.controls['name'].invalid && (account.controls['name'].dirty || account.controls['name'].touched)"
+             class="text-red-500 text-xs italic">
+          <div *ngIf="account.controls['name'].errors?.['required']">Name is required.</div>
+        </div>
+      </div>
+  
+      <div class="mb-4">
+        <label for="status" class="block text-gray-700 text-sm font-bold mb-2">Status</label>
+        <p-dropdown [options]="statusOptions" formControlName="status" placeholder="Select Status"
+                    class="w-full"></p-dropdown>
+      </div>
+  
+      <div class="mb-4">
+        <label for="sensor_count" class="block text-gray-700 text-sm font-bold mb-2">Sensor Count</label>
+        <p-inputNumber inputId="sensor_count" formControlName="sensor_count"
+                       class="w-full"></p-inputNumber>
+        <div *ngIf="account.controls['sensor_count'].invalid && (account.controls['sensor_count'].dirty || account.controls['sensor_count'].touched)"
+             class="text-red-500 text-xs italic">
+          <div *ngIf="account.controls['sensor_count'].errors?.['required']">Sensor count is required.</div>
+          <div *ngIf="account.controls['sensor_count'].errors?.['min']">Sensor count must be at least {{account.controls['sensor_count'].errors?.['min'].min}}.</div>
+        </div>
+      </div>
+  
+      <div class="mb-4">
+        <label for="admin_users" class="block text-gray-700 text-sm font-bold mb-2">Admin Users</label>
+        <p-multiSelect [options]="adminUserOptions" formControlName="admin_users"
+                       placeholder="Select Admin Users" class="w-full"></p-multiSelect>
+      </div>
+  
+      <div class="mb-4">
+        <h3 class="text-lg font-semibold mb-2 text-gray-800">Address</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4" formGroupName="address">
+          <div>
+            <label for="pincode" class="block text-gray-700 text-sm font-bold mb-2">Pincode</label>
+            <input pInputText type="text" id="pincode" formControlName="pincode"
+                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <div *ngIf="account.controls['address'].controls['pincode'].invalid && (account.controls['address'].controls['pincode'].dirty || account.controls['address'].controls['pincode'].touched)"
+                 class="text-red-500 text-xs italic">
+              <div *ngIf="account.controls['address'].controls['pincode'].errors?.['required']">Pincode is required.</div>
+              <div *ngIf="account.controls['address'].controls['pincode'].errors?.['pattern']">Invalid pincode format.</div>
+            </div>
+          </div>
+          <div>
+            <label for="city" class="block text-gray-700 text-sm font-bold mb-2">City</label>
+            <input pInputText type="text" id="city" formControlName="city"
+                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <div *ngIf="account.controls['address'].controls['city'].invalid && (account.controls['address'].controls['city'].dirty || account.controls['address'].controls['city'].touched)"
+                 class="text-red-500 text-xs italic">
+              <div *ngIf="account.controls['address'].controls['city'].errors?.['required']">City is required.</div>
+            </div>
+          </div>
+          <div>
+            <label for="state" class="block text-gray-700 text-sm font-bold mb-2">State</label>
+            <input pInputText type="text" id="state" formControlName="state"
+                   class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <div *ngIf="account.controls['address'].controls['state'].invalid && (account.controls['address'].controls['state'].dirty || account.controls['address'].controls['state'].touched)"
+                 class="text-red-500 text-xs italic">
+              <div *ngIf="account.controls['address'].controls['state'].errors?.['required']">State is required.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="flex items-center justify-end">
+        <button pButton type="submit" label="Save" class="p-button-primary"></button>
+      </div>
+    </form>
+  </div>
