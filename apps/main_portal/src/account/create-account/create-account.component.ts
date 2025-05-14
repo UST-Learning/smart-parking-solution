@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
@@ -24,7 +24,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CreateAccountComponent {
+export class CreateAccountComponent implements OnInit {
   public account: any;
   public statusOptions = [
     { label: 'Active', value: 'active' },
@@ -35,6 +35,9 @@ export class CreateAccountComponent {
     { label: 'User2', value: 'user2' },
     { label: 'User3', value: 'user3' },
   ];
+
+  @Output() saveEvent: EventEmitter<any> = new EventEmitter();
+  @Output() cancelEvent: EventEmitter<any> = new EventEmitter();
 
   constructor(private fb: FormBuilder, private accountService: AccountService, private route: ActivatedRoute, private router: Router) {}
 
@@ -52,16 +55,19 @@ export class CreateAccountComponent {
     });
   }
 
-  onSubmit() {
+  onSave() {
     console.log(this.account.value);
     if (this.account.valid) {
       this.accountService.saveAccount(this.account.value).subscribe((response)=>{
-        console.log('Account saved successfully:', response);
-        this.router.navigate(['main_portal']);
+        this.saveEvent.next('saved');
       });
     } else {
       // Handle form errors
       console.log('Form is invalid');
     } 
+  }
+
+  onCancel() {
+    this.cancelEvent.emit('cancel');
   }
 }

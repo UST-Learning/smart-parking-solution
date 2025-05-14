@@ -1,15 +1,12 @@
 <section class="flex flex-col">
-    <section class="relative rounded-lg">
-        <img class="w-full h-full"
-            src="https://www.happiestminds.com/wp-content/uploads/2024/07/Smart-Parking-banner.jpg">
-        <p class="absolute top-1/2 ml-6 text-3xl font-bold tracking-tight text-white sm:text-4xl">
-            Smart Parking
+    <section class="relative rounded-lg overflow-hidden">
+        <img class="w-full h-auto max-h-[50vh] object-cover"  src="https://www.happiestminds.com/wp-content/uploads/2024/07/Smart-Parking-banner.jpg"
+            alt="Smart Parking Banner">
+        <p class="absolute top-1/2 left-4 transform -translate-y-1/2 text-2xl font-bold tracking-tight text-white sm:text-3xl md:text-4xl">  Smart Parking
         </p>
     </section>
-    <section class="mx-auto py-4 h-svh">
-        <section class="grid grid-cols-2 gap-4 px-2">
-            <article class="flex flex-col p-2 pr-4 border-r-4 border-stone-500 rounded">
-                <ng-container *ngFor="let card of infoCardsLeft;">
+    <section class="mx-auto py-4 min-h-[30vh] flex items-start">
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-4 px-2 w-full">  <article class="flex flex-col p-2 md:pr-4 border-r-0 md:border-r-4 border-stone-500 rounded">  <ng-container *ngFor="let card of infoCardsLeft;">
                     <app-card [cardInfo]="card"></app-card>
                 </ng-container>
             </article>

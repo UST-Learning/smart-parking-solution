@@ -1,6 +1,5 @@
-<div class="container mx-auto mt-8 p-6 bg-white rounded-md shadow-md">
-    <h2 class="text-2xl font-semibold mb-4 text-gray-800">Account Details</h2>
-    <form [formGroup]="account" (ngSubmit)="onSubmit()">
+<div class="container mx-auto mt-2 p-2 bg-white">
+    <form [formGroup]="account">
       <div class="mb-4">
         <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Name</label>
         <input pInputText type="text" id="name" formControlName="name"
@@ -67,9 +66,10 @@
           </div>
         </div>
       </div>
-  
-      <div class="flex items-center justify-end">
-        <button pButton type="submit" label="Save" class="p-button-primary"></button>
-      </div>
     </form>
+  </div>
+
+  <div class="flex justify-between mt-4 ">
+    <p-button label="Cancel" icon="pi pi-times" size="small" (click)="onCancel()"></p-button>
+    <p-button label="Save" icon="pi pi-check" size="small" (click)="onSave()"></p-button>
   </div>
