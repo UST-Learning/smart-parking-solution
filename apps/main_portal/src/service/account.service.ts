@@ -11,4 +11,8 @@ export class AccountService {
     getAccounts(): Observable<any> {
         return this.http.get('/accounts');
     }
+
+    saveAccount(account: any): Observable<any> {
+        return this.http.post('/accounts', account);
+    }
 }

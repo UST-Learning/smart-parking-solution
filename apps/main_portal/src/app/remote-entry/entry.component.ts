@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LandingComponent } from '../../landing/landing.component';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
-  imports: [CommonModule, LandingComponent],
+  imports: [CommonModule, RouterOutlet],
   selector: 'app-main_portal-entry',
-  template: `<app-landing></app-landing>`,
+  template: `<router-outlet />`,
 })
 export class RemoteEntryComponent {}
