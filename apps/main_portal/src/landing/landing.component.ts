@@ -1,64 +1,44 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, Router } from '@angular/router';
 
-import { ButtonModule } from 'primeng/button';
-import { TableModule } from 'primeng/table';
-import { TagModule } from 'primeng/tag';
-import { SidebarModule } from 'primeng/sidebar';
-import { AccountService } from '../service/account.service';
-import { CreateAccountComponent } from "../account/create-account/create-account.component";
+import { TabsModule } from 'primeng/tabs';
+import { AccountsContainerComponent } from '../account/accounts-container/accounts-container.component';
+import { UsersContainerComponent } from '../user/users-container/users-container.component';
+import { LandingService } from '../service/landing.service';
 
 @Component({
   selector: 'app-landing',
-  imports: [CommonModule, ButtonModule, TableModule, TagModule, SidebarModule, CreateAccountComponent],
+  imports: [
+    CommonModule,
+    TabsModule,
+    AccountsContainerComponent,
+    UsersContainerComponent,
+  ],
   templateUrl: './landing.component.html',
   styleUrl: './landing.component.css',
 })
-export class LandingComponent implements OnInit {
+export class LandingComponent implements OnInit, OnDestroy {
+  currentTab = 0;
+  subscription: any;
 
-  sidebarVisible = false;
-
-  cols: any[] = [
-    { field: 'name', header: 'Name' },
-    { field: 'status', header: 'Status' },
-    { field: 'address', header: 'City', subfield: 'city' },
-    { field: 'address', header: 'Pin Code', subfield: 'pincode' },
-    { field: 'sensor_count', header: 'Total Sensor' },
-    { field: 'actions', header: 'Action' }
-  ];
-
-  accounts: any[] = [];
-
-  constructor(private accountService: AccountService, private route: ActivatedRoute, private router: Router) {}
+  constructor(private landingService: LandingService) {}
 
   ngOnInit(): void {
-    this.getAccounts();
+    this.subscription = this.landingService.filterUsersObs
+      .subscribe((accountId) => {
+        if (accountId) {
+          this.changeTab(1);
+        }
+      });
   }
 
-  getAccounts() {
-    this.accountService.getAccounts().subscribe(data=>{
-      this.accounts = [...data];
-    });
+  changeTab(tabIndex: any) {
+    this.currentTab = tabIndex;
   }
 
-  editAccount(account: any) {
-    console.log('Edit account:', account);
+  ngOnDestroy(): void {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
-
-  onNewAccount() {
-    this.sidebarVisible = true;
-  }
-
-  onSave(){
-    console.log('Save account');
-    this.getAccounts();
-    this.sidebarVisible = false;
-  }
-
-  onCancel(){
-    console.log('Cancel account');
-    this.sidebarVisible = false;
-  }
-
 }

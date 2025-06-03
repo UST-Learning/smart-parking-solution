@@ -1,8 +1,25 @@
 <div class="flex h-[80vh] flex-col justify-center px-6 py-12 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-        <img class="mx-auto h-10 w-auto" src="https://tailwindui.com/plus-assets/img/logos/mark.svg?color=indigo&shade=600"
-            alt="Your Company">
-        <h2 class="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Sign in <em *ngIf="isAdmin" class="bg-violet-500 text-white p-2 text-sm rounded-md">As Admin</em> to access services</h2>
+            <svg class="mx-auto size-14" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="#4CAF50"
+                aria-label="Parking Icon">
+                <!-- Base shape -->
+                <path d="M5 40 H 40 C 50 30, 70 30, 80 50 H 95 V 70 H 5 Z" fill="#66BB6A" />
+            
+                <!-- Letter P -->
+                <text x="50" y="65" font-size="40" font-weight="bold" text-anchor="middle" fill="#FFFFFF">P</text>
+            
+                <!-- Wheels -->
+                <circle cx="20" cy="75" r="10" fill="#388E3C" />
+                <circle cx="80" cy="75" r="10" fill="#388E3C" />
+            
+                <!-- Divider line -->
+                <path d="M5 45 H 95" stroke="#FFFFFF" stroke-width="2" />
+            
+                <!-- Additional details for enhancement -->
+                <rect x="10" y="50" width="10" height="5" fill="#4CAF50" />
+                <rect x="80" y="50" width="10" height="5" fill="#4CAF50" />
+            </svg>
+        <h2 class="mt-6 text-center text-2xl/9 font-bold tracking-tight text-gray-900">Sign in <em *ngIf="isAdmin" class="bg-violet-500 text-white p-2 text-sm rounded-md">As Admin</em> to access services</h2>
     </div>
 
     <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
