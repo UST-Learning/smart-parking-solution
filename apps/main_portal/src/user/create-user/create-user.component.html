@@ -1,0 +1,62 @@
+<div class="container mx-auto mt-2 p-2 bg-white">
+    <form *ngIf="userForm" [formGroup]="userForm">
+
+        <div class="mb-4">
+            <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Name</label>
+            <input pInputText type="text" id="name" formControlName="name"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <div *ngIf="userForm.controls['name'].invalid && (userForm.controls['name'].dirty || userForm.controls['name'].touched)"
+                class="text-red-500 text-xs italic">
+                <div *ngIf="userForm.controls['name'].errors?.['required']">Name is required.</div>
+            </div>
+        </div>
+
+        <div class="mb-4">
+            <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email</label>
+            <input pInputText type="email" id="email" formControlName="email"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <div *ngIf="userForm.controls['email'].invalid && (userForm.controls['email'].dirty || userForm.controls['email'].touched)"
+                class="text-red-500 text-xs italic">
+                <div *ngIf="userForm.controls['email'].errors?.['required']">Email is required.</div>
+                <div *ngIf="userForm.controls['email'].errors?.['email']">Invalid email format.</div>
+            </div>
+        </div>
+
+        <div class="mb-4">
+            <label for="phone" class="block text-gray-700 text-sm font-bold mb-2">Phone</label>
+            <input pInputText type="tel" id="phone" formControlName="phone"
+                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            <div *ngIf="userForm.controls['phone'].invalid && (userForm.controls['phone'].dirty || userForm.controls['phone'].touched)"
+                class="text-red-500 text-xs italic">
+                <div *ngIf="userForm.controls['phone'].errors?.['required']">Phone is required.</div>
+                <div *ngIf="userForm.controls['phone'].errors?.['pattern']">Invalid phone number.</div>
+            </div>
+        </div>
+
+         <div class="mb-4">
+            <label for="account_id" class="block text-gray-700 text-sm font-bold mb-2">Account</label>
+            <p-dropdown [options]="accountOptions" formControlName="account_id" placeholder="Select Account"
+                class="w-full"></p-dropdown>
+            <div *ngIf="userForm.controls['account_id'].invalid && (userForm.controls['account_id'].dirty || userForm.controls['account_id'].touched)"
+                class="text-red-500 text-xs italic">
+                <div *ngIf="userForm.controls['account_id'].errors?.['required']">Account is required.</div>
+            </div>    
+        </div>
+
+        <div class="mb-4">
+            <label for="role" class="block text-gray-700 text-sm font-bold mb-2">User Role</label>
+            <p-dropdown [options]="userRoleOptions" formControlName="role" placeholder="Select User Role"
+                class="w-full"></p-dropdown>
+             <div *ngIf="userForm.controls['role'].invalid && (userForm.controls['role'].dirty || userForm.controls['role'].touched)"
+                class="text-red-500 text-xs italic">
+                <div *ngIf="userForm.controls['role'].errors?.['required']">Role is required.</div>
+            </div>     
+        </div>
+
+    </form>
+</div>
+
+<div class="flex justify-between mt-4 ">
+    <p-button label="Cancel" icon="pi pi-times" size="small" (click)="onCancel()"></p-button>
+    <p-button label="Save" icon="pi pi-check" size="small" (click)="onSave()"></p-button>
+</div>

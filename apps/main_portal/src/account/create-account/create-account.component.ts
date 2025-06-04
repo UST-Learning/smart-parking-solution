@@ -30,11 +30,6 @@ export class CreateAccountComponent implements OnInit {
     { label: 'Active', value: 'active' },
     { label: 'Inactive', value: 'inactive' },
   ];
-  public adminUserOptions = [
-    { label: 'User1', value: 'user1' },
-    { label: 'User2', value: 'user2' },
-    { label: 'User3', value: 'user3' },
-  ];
 
   @Output() saveEvent: EventEmitter<any> = new EventEmitter();
   @Output() cancelEvent: EventEmitter<any> = new EventEmitter();
@@ -46,7 +41,6 @@ export class CreateAccountComponent implements OnInit {
       name: ['', Validators.required],
       status: [null], // Or a default value
       sensor_count: [null, [Validators.required, Validators.min(0)]],
-      admin_users: [[]], // Default to an empty array
       address: this.fb.group({
         pincode: ['', [Validators.required, Validators.pattern('^[0-9]{6}$')]], // Example pincode pattern
         city: ['', Validators.required],

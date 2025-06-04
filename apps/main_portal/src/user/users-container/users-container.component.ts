@@ -8,12 +8,20 @@ import {
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
+import { SidebarModule } from 'primeng/sidebar';
 import { UserService } from '../../service/user.service';
 import { LandingService } from '../../service/landing.service';
+import { CreateUserComponent } from '../create-user/create-user.component';
 
 @Component({
   selector: 'app-users-container',
-  imports: [CommonModule, ButtonModule, TableModule],
+  imports: [
+    CommonModule,
+    ButtonModule,
+    TableModule,
+    SidebarModule,
+    CreateUserComponent,
+  ],
   templateUrl: './users-container.component.html',
   styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -35,20 +43,23 @@ export class UsersContainerComponent implements OnInit, OnDestroy {
     { field: 'actions', header: 'Action' },
   ];
 
+  sidebarVisible = false;
+
   users: any[] = [];
   subscription: any;
 
   ngOnInit() {
     this.getUsers();
-    this.subscription = this.landingService.filterUsersObs
-      .subscribe((accountId) => {
+    this.subscription = this.landingService.filterUsersObs.subscribe(
+      (accountId) => {
         console.log('Received account ID:', accountId);
         if (accountId) {
           this.filterUsersByAccount(accountId);
         } else {
           this.getUsers();
         }
-      });
+      }
+    );
   }
 
   getUsers() {
@@ -65,11 +76,20 @@ export class UsersContainerComponent implements OnInit, OnDestroy {
   }
 
   onNewUser() {
-    console.log('New user');
+    this.sidebarVisible = true;
   }
 
   editUser(user: any) {
     console.log('Edit user:', user);
+  }
+
+  onSave() {
+    this.getUsers();
+    this.sidebarVisible = false;
+  }
+
+  onCancel() {
+    this.sidebarVisible = false;
   }
 
   ngOnDestroy() {

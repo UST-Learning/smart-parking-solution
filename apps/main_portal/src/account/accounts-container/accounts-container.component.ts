@@ -77,4 +77,9 @@ export class AccountsContainerComponent implements OnInit {
     console.log('Navigating to users from account for account ID:', accountId);
     this.landingService.updateValue(accountId);
   }
+
+  refreshData() {
+    this.getAccounts();
+  }
+
 }
