@@ -34,14 +34,14 @@
       <div class="hidden lg:flex lg:gap-x-12">
         <a [routerLink]="homeUrl" class="text-sm/6 font-semibold text-gray-900 px-4 py-2 hover:text-slate-400">Home</a>
         <a *ngIf="!isloggedIn" routerLink="login" class="text-sm/6 font-semibold text-gray-900 px-4 py-2 hover:text-slate-400">Signin</a>
-        <a *ngIf="isloggedIn" routerLink="login" class="text-sm/6 font-semibold text-gray-900 px-4 py-2 hover:text-slate-400">Loggedin</a>
+        <a *ngIf="isloggedIn" routerLink="settings" class="text-sm/6 font-semibold text-gray-900 px-4 py-2 hover:text-slate-400">Settings</a>
         <a routerLink="about" class="text-sm/6 font-semibold text-gray-900 px-4 py-2 hover:text-slate-400">About</a>
       </div>
       <div *ngIf="!isloggedIn" class="hidden lg:flex lg:flex-1 lg:justify-end">
         <a href="/" class="text-sm/6 font-semibold text-gray-900">Sign in <span aria-hidden="true">&rarr;</span></a>
       </div>
       <div *ngIf="isloggedIn" class="hidden lg:flex lg:flex-1 lg:justify-end">
-        <a href="main_portal" class="text-sm/6 font-semibold text-gray-900">Logged in <span aria-hidden="true">&rarr;</span></a>
+        <a href="" class="text-sm/6 font-semibold text-gray-900" (click)="signOut($event)">Sign out<span aria-hidden="true">&rarr;</span></a>
       </div>
     </nav>
     <!-- Mobile menu, show/hide based on menu open state. -->
@@ -66,14 +66,14 @@
             <div class="space-y-2 py-6">
               <a [routerLink]="homeUrl" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Home</a>
               <a *ngIf="!isloggedIn" routerLink="login" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Signin</a>
-              <a *ngIf="isloggedIn" routerLink="login" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Loggedin</a>
+              <a *ngIf="isloggedIn" routerLink="settings" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Settings</a>
               <a routerLink="about" class="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">About</a>
             </div>
             <div *ngIf="!isloggedIn" class="py-6">
               <a href="/" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Sign in</a>
             </div>
             <div *ngIf="isloggedIn" class="py-6">
-              <a href="main_portal" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Logged in</a>
+              <a href="settings" class="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50">Settings</a>
             </div>
           </div>
         </div>

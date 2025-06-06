@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { SessionService } from '@smart-parking/session';
 
 @Component({
@@ -11,14 +11,12 @@ import { SessionService } from '@smart-parking/session';
 })
 export class HeaderComponentComponent implements OnInit {
 
-  isloggedIn: boolean = false; // Tracks the login status of the user
+  isloggedIn = false; // Tracks the login status of the user
 
-  constructor(private sessionService: SessionService) {} // Injects the SessionService dependency
+  constructor(private sessionService: SessionService, private router: Router) {} // Injects the SessionService dependency
 
   ngOnInit(): void {
-    // Subscribes to the isLogin$ observable from SessionService
-    // Updates the isloggedIn property based on the emitted value
-    this.sessionService.isLogin$.subscribe(res => this.isloggedIn = res);
+    this.sessionService.isLogin$.subscribe((res) => this.isloggedIn = res);
   }
 
   get homeUrl() {
@@ -26,4 +24,10 @@ export class HeaderComponentComponent implements OnInit {
     return this.isloggedIn ? 'main_portal' : '/';
   }
 
-}
+  signOut(event: Event): void {
+    event.preventDefault();
+    this.sessionService.logOut();
+    this.router.navigate(['/login']);
+  }
+
+ }

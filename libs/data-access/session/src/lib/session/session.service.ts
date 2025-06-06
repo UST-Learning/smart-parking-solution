@@ -23,6 +23,11 @@ export class SessionService {
     }
   }
 
+  logOut(): void {
+    this.loginSubject.next(false);
+    this.localStorageService.clear();
+  }
+
   checkLoginSession(): void {
     const token = this.localStorageService.get('token');
     const loggedIn = (token) ? true : false;
