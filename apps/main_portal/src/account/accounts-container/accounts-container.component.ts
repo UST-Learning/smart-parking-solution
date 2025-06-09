@@ -1,9 +1,11 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { SidebarModule } from 'primeng/sidebar';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
 import { CreateAccountComponent } from '../create-account/create-account.component';
 import { AccountService } from '../../service/account.service';
 import { RouterModule } from '@angular/router';
@@ -19,7 +21,9 @@ import { LandingService } from '../../service/landing.service';
     SidebarModule,
     CreateAccountComponent,
     RouterModule,
+    ConfirmDialogModule,
   ],
+  providers: [ConfirmationService],
   templateUrl: './accounts-container.component.html',
   styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -38,11 +42,13 @@ export class AccountsContainerComponent implements OnInit {
   ];
 
   accounts: any[] = [];
+  selectedAccount: any = null;
 
   constructor(
     private accountService: AccountService,
     private landingService: LandingService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private confirmationService: ConfirmationService
   ) {}
 
   ngOnInit(): void {
@@ -57,11 +63,15 @@ export class AccountsContainerComponent implements OnInit {
   }
 
   onNewAccount() {
+    this.selectedAccount = null;
     this.sidebarVisible = true;
   }
 
-  editAccount(account: any) {
-    console.log('Edit account:', account);
+  onEditAccount(account: any) {
+    if (account) {
+      this.selectedAccount = account;
+      this.sidebarVisible = true;
+    }
   }
 
   onSave() {
@@ -82,4 +92,40 @@ export class AccountsContainerComponent implements OnInit {
     this.getAccounts();
   }
 
+  onDeleteAccount(event: any, account: any) {
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message:
+        'The associated users with this account will also be deleted. Do you still want to delete this account?',
+      header: `Account: ${account.name}`,
+      icon: 'pi pi-info-circle',
+      rejectLabel: 'Cancel',
+      rejectButtonProps: {
+        label: 'Cancel',
+        severity: 'secondary',
+        outlined: true,
+      },
+      acceptButtonProps: {
+        label: 'Delete',
+        severity: 'danger',
+      },
+
+      accept: () => {
+        this.accountService.deleteAccount(account._id).subscribe({
+          next: (res) => {
+            if (res.deletedCount > 0) {
+              this.getAccounts();
+            }
+          },
+          error: (err) => {
+            console.error('Error deleting account:', err);
+            alert(`Error details: ${err.error}`);
+          },
+        });
+      },
+      reject: () => {
+        console.log('Confirmed rejected delete for account:');
+      },
+    });
+  }
 }

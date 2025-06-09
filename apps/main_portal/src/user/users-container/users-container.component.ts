@@ -9,6 +9,8 @@ import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { SidebarModule } from 'primeng/sidebar';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
 import { UserService } from '../../service/user.service';
 import { LandingService } from '../../service/landing.service';
 import { CreateUserComponent } from '../create-user/create-user.component';
@@ -21,7 +23,9 @@ import { CreateUserComponent } from '../create-user/create-user.component';
     TableModule,
     SidebarModule,
     CreateUserComponent,
+    ConfirmDialogModule
   ],
+  providers: [ConfirmationService],
   templateUrl: './users-container.component.html',
   styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -90,6 +94,11 @@ export class UsersContainerComponent implements OnInit, OnDestroy {
 
   onCancel() {
     this.sidebarVisible = false;
+  }
+
+  // TODO: Implement delete functionality
+  onDeleteUser(event: any, user: any) {
+    alert('Delete user functionality is not implemented yet.');
   }
 
   ngOnDestroy() {

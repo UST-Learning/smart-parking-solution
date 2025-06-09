@@ -38,7 +38,9 @@
                         </span>
                         <span *ngSwitchCase="'actions'">
                             <p-button icon="pi pi-pencil" class="mr-2" [rounded]="true" [outlined]="true"
-                                (click)="editAccount(rowData)"></p-button>
+                                (click)="onEditAccount(rowData)"></p-button>
+                            <p-button icon="pi pi-trash" class="mr-2" severity="danger" [rounded]="true" [outlined]="true"
+                                (click)="onDeleteAccount($event, rowData)"></p-button>        
                         </span>
                         <span *ngSwitchDefault>
                             {{rowData[col.field] }}
@@ -56,6 +58,9 @@
         <span class="font-semibold text-xl">Create Account</span>
     </ng-template>
     <ng-template pTemplate="content">
-        <app-create-account (saveEvent)="onSave()" (cancelEvent)="onCancel()"></app-create-account>
+        <app-create-account [accountData]="selectedAccount" (saveEvent)="onSave()" (cancelEvent)="onCancel()"></app-create-account>
     </ng-template>
 </p-sidebar>
+
+<!-- delet confirmation dialog -->
+<p-confirmdialog />

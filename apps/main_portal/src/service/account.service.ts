@@ -12,7 +12,15 @@ export class AccountService {
         return this.http.get('/accounts');
     }
 
-    saveAccount(account: any): Observable<any> {
+    createAccount(account: any): Observable<any> {
         return this.http.post('/accounts', account);
+    }
+
+    deleteAccount(accountId: string): Observable<any> {
+        return this.http.delete(`/accounts/${accountId}`);
+    }
+
+    updateAccount(accountId: string, account: any): Observable<any> {
+        return this.http.put(`/accounts/${accountId}`, account);
     }
 }
