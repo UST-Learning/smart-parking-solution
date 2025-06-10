@@ -50,13 +50,13 @@ export class UsersContainerComponent implements OnInit, OnDestroy {
   sidebarVisible = false;
 
   users: any[] = [];
+  filteredUsers: any[] = [];
   subscription: any;
 
   ngOnInit() {
     this.getUsers();
     this.subscription = this.landingService.filterUsersObs.subscribe(
       (accountId) => {
-        console.log('Received account ID:', accountId);
         if (accountId) {
           this.filterUsersByAccount(accountId);
         } else {
@@ -69,13 +69,14 @@ export class UsersContainerComponent implements OnInit, OnDestroy {
   getUsers() {
     this.userService.getUsers().subscribe((data) => {
       this.users = [...data];
+      this.filteredUsers = [...data];
       this.cdr.detectChanges();
     });
   }
 
   filterUsersByAccount(accountId: any) {
     console.log('Filter users by account ID:', accountId);
-    this.users = this.users.filter((user) => user.account_id === accountId);
+    this.filteredUsers = this.users.filter((user) => user.account_id === accountId);
     this.cdr.detectChanges();
   }
 
@@ -101,11 +102,16 @@ export class UsersContainerComponent implements OnInit, OnDestroy {
     alert('Delete user functionality is not implemented yet.');
   }
 
+  refreshData() {
+    this.getUsers();
+  }
+
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
-    this.users = []; // Clear users array
+    this.users = [];
+    this.filteredUsers = [];
     this.cdr.detach(); // Detach ChangeDetectorRef to stop change detection
   }
 }
