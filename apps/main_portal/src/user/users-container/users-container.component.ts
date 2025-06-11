@@ -34,7 +34,8 @@ export class UsersContainerComponent implements OnInit, OnDestroy {
   constructor(
     private userService: UserService,
     private landingService: LandingService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private confirmationService: ConfirmationService
   ) {}
 
   cols: any[] = [
@@ -51,6 +52,7 @@ export class UsersContainerComponent implements OnInit, OnDestroy {
 
   users: any[] = [];
   filteredUsers: any[] = [];
+  selectedUser: any = null;
   subscription: any;
 
   ngOnInit() {
@@ -84,8 +86,10 @@ export class UsersContainerComponent implements OnInit, OnDestroy {
     this.sidebarVisible = true;
   }
 
-  editUser(user: any) {
+  onEditUser(user: any) {
     console.log('Edit user:', user);
+    this.selectedUser = user;
+    this.sidebarVisible = true;
   }
 
   onSave() {
@@ -97,9 +101,40 @@ export class UsersContainerComponent implements OnInit, OnDestroy {
     this.sidebarVisible = false;
   }
 
-  // TODO: Implement delete functionality
   onDeleteUser(event: any, user: any) {
-    alert('Delete user functionality is not implemented yet.');
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Are you sure you want to delete this user? This action cannot be undone.',
+      header: `User: ${user.name}`,
+      icon: 'pi pi-info-circle',
+      rejectLabel: 'Cancel',
+      rejectButtonProps: {
+        label: 'Cancel',
+        severity: 'secondary',
+        outlined: true,
+      },
+      acceptButtonProps: {
+        label: 'Delete',
+        severity: 'danger',
+      },
+
+      accept: () => {
+        this.userService.deleteUser(user._id).subscribe({
+          next: (res) => {
+            if (res.deletedCount > 0) {
+              this.getUsers();
+            }
+          },
+          error: (err) => {
+            console.error('Error deleting user:', err);
+            alert(`Error details: ${err.error}`);
+          },
+        });
+      },
+      reject: () => {
+        console.log('Confirmed rejected delete for user:');
+      },
+    });
   }
 
   refreshData() {

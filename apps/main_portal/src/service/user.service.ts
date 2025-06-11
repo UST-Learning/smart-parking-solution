@@ -19,4 +19,9 @@ export class UserService {
   getAccountsMetadata(): Observable<any> {
     return this.http.get('/accounts/metadata');
   }
+
+  deleteUser(userId: string): Observable<any> {
+    return this.http.delete(`/users/${userId}`);
+  }
+
 }

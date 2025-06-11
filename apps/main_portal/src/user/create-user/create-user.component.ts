@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ROLETYPE } from '@smart-parking/data-access';
@@ -13,6 +13,8 @@ import { UserService } from '../../service/user.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateUserComponent implements OnInit {
+
+  @Input() userData: any = null;
   @Output() saveEvent: EventEmitter<any> = new EventEmitter();
   @Output() cancelEvent: EventEmitter<any> = new EventEmitter();
 
@@ -20,22 +22,30 @@ export class CreateUserComponent implements OnInit {
   userRoleOptions: { label: string; value: string }[] = [];
   accountOptions: { label: string; value: string }[] = [];
 
-  constructor(private fb: FormBuilder, private userService: UserService) {}
+  mode: 'create' | 'edit' = 'create';
+
+  constructor(private fb: FormBuilder, private userService: UserService, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.getAccountsMetadata();
+    if(this.userData) {
+      this.mode = 'edit';
+    }
 
     this.userRoleOptions = Object.values(ROLETYPE).map((type) => ({
       label: type,
       value: type,
     }));
+    this.initializeFrom(this.userData);
+  }
 
-    this.userForm = this.fb.group({
-      name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required, Validators.pattern('^[0-9]{10}$')]],
-      account_id: ['', Validators.required],
-      role: ['', Validators.required],
+  private initializeFrom(userData?: any) {
+      this.userForm = this.fb.group({
+      name: [userData?.name || '', Validators.required],
+      email: [{value: userData?.email || '', disabled: this.mode === 'edit' }, [Validators.required, Validators.email]],
+      phone: [{value: userData?.phone || '', disabled: this.mode === 'edit'}, [Validators.required, Validators.pattern('^[0-9]{10}$')]],
+      account_id: [{value: userData?.account_id || '', disabled: this.mode === 'edit'}, Validators.required],
+      role: [userData?.role || '', Validators.required],
     });
   }
 
@@ -43,6 +53,7 @@ export class CreateUserComponent implements OnInit {
     this.userService.getAccountsMetadata().subscribe((data) => {
       console.log('Accounts Metadata:', data);
       this.accountOptions = data;
+      this.cdr.detectChanges();
     });
   }
 
