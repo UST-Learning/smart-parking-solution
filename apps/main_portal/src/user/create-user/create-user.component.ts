@@ -63,10 +63,17 @@ export class CreateUserComponent implements OnInit {
 
   onSave() {
     if (this.userForm && this.userForm.valid) {
-      this.userService.createUser(this.userForm.value).subscribe((response) => {
-        console.log('User saved successfully:', response);
-        this.saveEvent.emit('saved');
-      });
+      if (this.mode === 'edit') {
+        this.userService.updateUser(this.userData._id, this.userForm.value).subscribe((response) => {
+          console.log('User updated successfully:', response);
+          this.saveEvent.emit('updated');
+        });
+      } else {
+        this.userService.createUser(this.userForm.value).subscribe((response) => {
+          console.log('User saved successfully:', response);
+          this.saveEvent.emit('saved');
+        });
+      }
     } else {
       if(this.userForm) {
         this.userForm.markAllAsTouched();

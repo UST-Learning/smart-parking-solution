@@ -40,7 +40,7 @@
 <p-sidebar [(visible)]="sidebarVisible" position="right" [style]="{'width': '30rem', 'maxWidth': '600px'}"
     [transitionOptions]="'300ms ease-in-out'" [modal]="false" dismissible="false">
     <ng-template pTemplate="header">
-        <span class="font-semibold text-xl">Create User</span>
+        <span class="font-semibold text-xl">{{selectedUser ? 'Edit':'Create'}} User</span>
     </ng-template>
     <ng-template pTemplate="content">
          <app-create-user [userData]="selectedUser" (saveEvent)="onSave()" (cancelEvent)="onCancel()"></app-create-user>

@@ -16,6 +16,10 @@ export class UserService {
     return this.http.post('/users', user);
   }
 
+  updateUser(userId: string, user: any): Observable<any> {
+    return this.http.put(`/users/${userId}`, user);
+  }
+  
   getAccountsMetadata(): Observable<any> {
     return this.http.get('/accounts/metadata');
   }

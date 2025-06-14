@@ -58,5 +58,5 @@
 
 <div class="flex justify-between mt-4 ">
     <p-button label="Cancel" icon="pi pi-times" size="small" (click)="onCancel()"></p-button>
-    <p-button label="Save" icon="pi pi-check" size="small" (click)="onSave()" [disabled]="userForm?.pristine || userForm?.invalid"></p-button>
+    <p-button [label]="mode==='edit'? 'update':'save'" icon="pi pi-check" size="small" (click)="onSave()" [disabled]="userForm?.pristine || userForm?.invalid"></p-button>
 </div>
